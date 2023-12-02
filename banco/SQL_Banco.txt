@@ -1,0 +1,66 @@
+create database aftervibe;
+use aftervibe;
+
+create table evento(
+id int not null auto_increment primary key,
+nome varchar(20000),
+caminho_imagem varchar(20000),
+data_inicio datetime,
+data_fim datetime,
+situacao boolean,
+descricao text
+);
+create table programacao(
+id int not null auto_increment primary key,
+nome varchar(10000),
+id_evento int,
+data_inicio datetime,
+data_fim datetime,
+descricao text,
+foreign key (id_evento) references evento(id)
+);
+
+create table ingresso(
+id int not null auto_increment primary key,
+nome varchar(10000),
+preco decimal(20, 2),
+id_evento int,
+descricao text,
+foreign key (id_evento) references evento(id)
+);
+create table ingresso_programacao(
+id int not null auto_increment primary key,
+id_ingresso int,
+id_programacao int,
+foreign key (id_ingresso) references ingresso(id),
+foreign key (id_programacao) references programacao(id)
+);
+
+create table usuario(
+id int not null auto_increment primary key,
+nome varchar(10000),
+cpf varchar(14),
+credito int
+);
+create table login(
+id int not null auto_increment primary key,
+senha varchar(10000),
+id_usuario int,
+foreign key (id_usuario) references usuario(id)
+);
+create table compras(
+id int not null auto_increment primary key,
+id_usuario int,
+id_ingresso int,
+quantidade int,
+foreign key (id_usuario) references usuario(id),
+foreign key (id_ingresso) references ingresso(id)
+);
+
+create table organizador(
+id int not null auto_increment primary key,
+id_usuario int,
+id_evento int,
+foreign key (id_usuario) references usuario(id),
+foreign key (id_evento) references evento(id)
+);
